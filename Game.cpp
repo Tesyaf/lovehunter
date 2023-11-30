@@ -35,11 +35,11 @@ using namespace std;
 HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD CursorPosition;
 
-char love[4][5] = {
-' ','0',' ','0',' ',
-'0','0','0','0','0',
-' ','0','0','0',' ',
-' ',' ','0',' ',' ',};
+char player[4][5] = {
+'\\',' ',' ',' ','/',
+' ','\\','0','/',' ',
+' ','|',' ','|',' ',
+' ','A','A','A',' '};
 
 void gotoxy(int x, int y)
 {
@@ -60,7 +60,7 @@ int main (){
 		for (int j = 0; j < 5; j++)
 		{
 			gotoxy(j + 5, i + 5);
-			cout << love[i][j];
+			cout << player[i][j];
 		}
 	}
 
