@@ -31,3 +31,38 @@ using namespace std;
 #define KEY_DOWN 80
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
+
+HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
+COORD CursorPosition;
+
+char love[4][5] = {
+' ','0',' ','0',' ',
+'0','0','0','0','0',
+' ','0','0','0',' ',
+' ',' ','0',' ',' ',};
+
+void gotoxy(int x, int y)
+{
+	/*
+		pindahkan kursor ke koordinat x horizontal atau kolom
+		dan koordinat y vertikal atau baris
+	*/
+	CursorPosition.X = x;
+	CursorPosition.Y = y;
+	SetConsoleCursorPosition(Console, CursorPosition);
+}
+
+
+int main (){
+
+    for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			gotoxy(j + 5, i + 5);
+			cout << love[i][j];
+		}
+	}
+
+    return 0;
+}
