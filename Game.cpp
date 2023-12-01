@@ -41,6 +41,53 @@ char player[4][5] = {
 ' ','|',' ','|',' ',
 ' ','A','A','A',' '};
 
+// posisi awal player di tengah secara horizontal layar
+int playerPosX = WIN_WIDTH / 2;
+// posisi awal player di bawah secara vertikal layar
+int playerPosY = 22;
+
+// score awal
+int score = 0;
+
+void textcolor(int color)
+{
+	SetConsoleTextAttribute(Console, color);
+}
+
+void setcursor(bool visible, DWORD size)
+{
+	if (size == 0)
+		size = 20;
+
+	CONSOLE_CURSOR_INFO lpCursor;
+	lpCursor.bVisible = visible;
+	lpCursor.dwSize = size;
+	SetConsoleCursorInfo(Console, &lpCursor);
+}
+
+void drawBorder()
+{
+	textcolor(GREY);
+	// bikin border kiri dan kanan
+	for (int i = 0; i < SCREEN_HEIGHT; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
+			gotoxy(0 + j, i);
+			cout << "\xcc";
+			gotoxy(WIN_WIDTH - j, i);
+			cout << "\xcc";
+		}
+	}
+	// lebar arena 36
+	for (int i = 0; i < SCREEN_HEIGHT; i++)
+	{
+		gotoxy(SCREEN_WIDTH, i);
+		cout << "\xcc";
+	}
+	textcolor(WHITE);
+}
+
 void gotoxy(int x, int y)
 {
 	/*
