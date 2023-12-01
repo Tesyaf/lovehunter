@@ -8,7 +8,7 @@
 using namespace std;
 
 #define SCREEN_WIDTH 90
-#define SCREEN_HEIGHT 26
+#define SCREEN_HEIGHT 29
 #define WIN_WIDTH 70
 
 #define BLUE 1
@@ -35,16 +35,20 @@ using namespace std;
 HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD CursorPosition;
 
+int LoveY[2];
+int LoveX[2];
+bool LoveFlag[2];
 char player[4][5] = {
 '\\',' ',' ',' ','/',
 ' ','\\','0','/',' ',
 ' ','|',' ','|',' ',
 ' ','A','A','A',' '};
 
-// posisi awal player di tengah secara horizontal layar
+// posisi awal player secara horizontal di tengah layar
 int playerPosX = WIN_WIDTH / 2;
-// posisi awal player di bawah secara vertikal layar
-int playerPosY = 22;
+
+// posisi awal player secara vertical di bawah layar
+int playerPosY = 25;
 
 // score awal
 int score = 0;
@@ -76,6 +80,8 @@ void setcursor(bool visible, DWORD size)
 	SetConsoleCursorInfo(Console, &lpCursor);
 }
 
+
+//Menggambar border permainan
 void drawBorder()
 {
 	textcolor(GREY);
@@ -90,7 +96,7 @@ void drawBorder()
 			cout << "\xcc";
 		}
 	}
-	// lebar arena 36
+	// lebar area permainan xx
 	for (int i = 0; i < SCREEN_HEIGHT; i++)
 	{
 		gotoxy(SCREEN_WIDTH,i);
@@ -98,6 +104,34 @@ void drawBorder()
 	}
 	textcolor(WHITE);
 }
+
+
+//Memunculkan Love secara random
+void genLove(int index)
+{
+	/*
+		bikin posisi Love di koordinat horizontal x
+		minimal di x = 7, karena lebar border kiri adalah 7
+		maksimal 59, karena 59 adalah posisi bagian kiri mobil
+	*/
+	LoveX[index] = 7 + rand() % (43);
+}
+
+//Menggambar Love
+void drawLove(int index){
+	if(LoveFlag[index] == 1){
+		textcolor(PINK);
+		gotoxy(LoveX[index], LoveY[index]);
+		cout << " ** ** ";
+		gotoxy(LoveX[index], LoveY[index] + 1);
+		cout << " ** ";
+		gotoxy(LoveX[index], LoveY[index] + 2);
+		cout << "****";
+		gotoxy(LoveX[index], LoveY[index] + 3);
+		cout << " ** ";
+		textcolor(WHITE);
+}
+
 
 
 int main (){
@@ -132,9 +166,9 @@ int main (){
 		char select = getchar();
 		
 		if (select == '4'){
-			return 0;
+			
 		}
-	}while (TRUE);
+	}while (true);
 
     return 0;
 }
