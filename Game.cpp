@@ -130,11 +130,33 @@ void drawLove(int index){
 		gotoxy(LoveX[index], LoveY[index] + 3);
 		cout << " ** ";
 		textcolor(WHITE);
+	}
 }
 
+void DestroyLove(int ind){
 
+	if (LoveFlag[ind] == true)
+	{
+		gotoxy(LoveX[ind], LoveY[ind]);
+		cout << "    ";
+		gotoxy(LoveX[ind], LoveY[ind] + 1);
+		cout << "    ";
+		gotoxy(LoveX[ind], LoveY[ind] + 2);
+		cout << "    ";
+		gotoxy(LoveX[ind], LoveY[ind] + 3);
+		cout << "    ";
+	}
+}
 
-int main (){
+void resetEnemy(int ind)
+{
+	DestroyLove(ind);
+	LoveY[ind] = 1;
+	genLove(ind);
+}
+
+int main ()
+{
 	setcursor(0,0);
 	srand((unsigned)time(NULL));
 
