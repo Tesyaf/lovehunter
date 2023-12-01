@@ -54,6 +54,17 @@ void textcolor(int color)
 	SetConsoleTextAttribute(Console, color);
 }
 
+void gotoxy(int x, int y)
+{
+	/*
+		pindahkan kursor ke koordinat x horizontal atau kolom
+		dan koordinat y vertikal atau baris
+	*/
+	CursorPosition.X = x;
+	CursorPosition.Y = y;
+	SetConsoleCursorPosition(Console, CursorPosition);
+}
+
 void setcursor(bool visible, DWORD size)
 {
 	if (size == 0)
@@ -82,35 +93,48 @@ void drawBorder()
 	// lebar arena 36
 	for (int i = 0; i < SCREEN_HEIGHT; i++)
 	{
-		gotoxy(SCREEN_WIDTH, i);
+		gotoxy(SCREEN_WIDTH,i);
 		cout << "\xcc";
 	}
 	textcolor(WHITE);
 }
 
-void gotoxy(int x, int y)
-{
-	/*
-		pindahkan kursor ke koordinat x horizontal atau kolom
-		dan koordinat y vertikal atau baris
-	*/
-	CursorPosition.X = x;
-	CursorPosition.Y = y;
-	SetConsoleCursorPosition(Console, CursorPosition);
-}
-
 
 int main (){
+	setcursor(0,0);
+	srand((unsigned)time(NULL));
 
-    for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 5; j++)
-		{
-			gotoxy(j + 5, i + 5);
-			cout << player[i][j];
+	do {
+
+		system("cls");
+		textcolor(YELLOW);
+		gotoxy(10,5);
+		cout <<" _                      _    _             _";
+		gotoxy(10,6);
+ 		cout <<"| |                    | |  | |           | |";    
+		gotoxy(10,7);
+ 		cout <<"| |     _____   _____  | |__| |_   _ _ __ | |_ ___ _ __ ";
+ 		gotoxy(10,8);
+ 		cout <<"| |    / _ \\ \\ / / _ \\ |  __  | | | | '_ \\| __/ _ \\ '__|";
+		gotoxy(10,9);
+ 		cout <<"| |___| (_) \\ V /  __/ | |  | | |_| | | | | ||  __/ |";
+		gotoxy(10,10);
+ 		cout <<"|______\\___/ \\_/ \\___| |_|  |_|\\__,_|_| |_|\\__\\___|_|";
+		gotoxy(10,13);
+		cout <<"1. Play Game";
+		gotoxy(10,14);
+		cout <<"2. Tutorial";
+		gotoxy(10,15);
+		cout <<"3. Leaderboard";
+		gotoxy(10,16);
+		cout <<"4. Exit Game";
+		textcolor(WHITE);
+		char select = getchar();
+		
+		if (select == '4'){
+			return 0;
 		}
-	}
+	}while (TRUE);
 
-cout << "Tess";
     return 0;
 }
