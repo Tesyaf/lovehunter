@@ -5,8 +5,6 @@
 #include <windows.h>
 #include <time.h>
 
-using namespace std;
-
 #define SCREEN_WIDTH 90
 #define SCREEN_HEIGHT 29
 #define WIN_WIDTH 70
@@ -36,6 +34,10 @@ using namespace std;
 HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD CursorPosition;
 
+using namespace std;
+
+int lovemove = 0;
+int moving = 0;
 int LoveY[2];
 int LoveX[2];
 bool LoveSpawn[2];
@@ -89,7 +91,7 @@ void drawBorder()
 	// bikin border kiri dan kanan
 	for (int i = 0; i < SCREEN_HEIGHT; i++)
 	{
-		for (int j = 0; j < 6; j++)
+		for (int j = 0; j < 10; j++)
 		{
 			gotoxy(0 + j, i);
 			cout << "\xcc";
@@ -104,6 +106,23 @@ void drawBorder()
 		cout << "\xcc";
 	}
 	textcolor(WHITE);
+
+	textcolor(LIGHTCYAN);
+	gotoxy(WIN_WIDTH + 5, 2);
+	cout << "Love Hunter";
+	gotoxy(WIN_WIDTH + 4, 4);
+	cout << "-----------";
+	gotoxy(WIN_WIDTH + 4, 6);
+	cout << "-----------";
+	gotoxy(WIN_WIDTH + 5, 12);
+	cout << "Control ";
+	gotoxy(WIN_WIDTH + 4, 13);
+	cout << "---------- ";
+	gotoxy(WIN_WIDTH + 3, 14);
+	cout << " A Key - Left";
+	gotoxy(WIN_WIDTH + 3, 15);
+	cout << " D Key - Right";
+
 }
 
 
@@ -112,10 +131,10 @@ void genLove(int index)
 {
 	/*
 		bikin posisi Love di koordinat horizontal x
-		minimal di x = 7, karena lebar border kiri adalah 7
-		maksimal 59, karena 59 adalah posisi bagian kiri mobil
+		minimal di x = 10, karena lebar border kiri adalah 10
+		maksimal 50, karena 50 adalah posisi bagian kiri mobil
 	*/
-	LoveX[index] = 7 + 4*(rand() % (11));
+	LoveX[index] = 10 + 4*(rand() % (10));
 }
 
 //Menggambar Love
@@ -194,9 +213,9 @@ bool collision(int ind)
 
 	// klo posisi love ke-0, berada pada baris tempat mobil
 	// berada, terdapat kemungkinan love tertangkap
-	if (LoveY[ind] + 4 - playerPosY >= 0 && LoveY[ind] + 4 - playerPosY < 9)
+	if (LoveY[ind] + 4 - playerPosY >= 0 && LoveY[ind] + 4 - playerPosY < 8)
 	{
-		if (LoveX[ind] + 4 - playerPosX >= 0 && LoveX[ind] + 4 - playerPosX < 9)
+		if (LoveX[ind] + 4 - playerPosX >= 0 && LoveX[ind] + 4 - playerPosX < 8)
 		{
 			return true;
 		}
@@ -208,7 +227,7 @@ void gameover()
 {
 	string text;
 
-	ofstream HallOfFameFile("game.dat", ios_base::app);
+	ofstream LeadBoard("game.dat", ios_base::app);
 
 	system("cls");
 	textcolor(CYAN);
@@ -219,12 +238,12 @@ void gameover()
 		 << endl;
 	cout << "\t\tYour name: ";
 	cin >> text;
-	HallOfFameFile << text << " " << score << endl;
+	LeadBoard << text << " " << score << endl;
 	cout << "\t\tPress any key to go back to menu.";
 	textcolor(WHITE);
 	getch();
 
-	HallOfFameFile.close();
+	LeadBoard.close();
 }
 
 void updateScore()
@@ -235,17 +254,54 @@ void updateScore()
 	textcolor(WHITE);
 }
 
-void hall_of_fame(void)
+void level()
+{
+	system("cls");
+	textcolor(LIGHTBLUE);
+	gotoxy(10,5);
+	cout << "Choose your level !!!";
+	gotoxy(10,6);
+	cout << "------------------------";
+	textcolor(BLUE);
+	gotoxy(10,7);
+	cout << "1. Easy ";
+	textcolor(WHITE);
+	gotoxy(10,8);
+	cout << "2. Medium ";
+	textcolor(RED);
+	gotoxy(10,9);
+	cout << "3. Hard ";
+
+	char op = getche();
+
+	if (op == '1')
+	{
+		moving = 5;
+		lovemove = 1;
+	}
+	else if (op == '2')
+	{
+		moving = 4;
+		lovemove = 1;
+	}
+	else if (op == '3')
+	{
+		moving = 4;
+		lovemove = 2;
+	}
+}
+
+void leaderboard(void)
 {
 	string text;
 
-	ifstream HallOfFameFile("game.dat");
+	ifstream LeadBoard("game.dat");
 
 	system("cls");
-	textcolor(DARKYELLOW);
-	cout << "Hall of Fame";
+	textcolor(CYAN);
+	cout << "LEADERBOARD";
 	cout << "\n----------------";
-	while (cin >> text)
+	while (LeadBoard >> text)
 	{
 		cout << "\n " << text;
 	}
@@ -253,7 +309,7 @@ void hall_of_fame(void)
 	textcolor(WHITE);
 	getch();
 
-	HallOfFameFile.close();
+	LeadBoard.close();
 }
 
 void play()
@@ -272,29 +328,11 @@ void play()
 	genLove(0);
 	// muncul love ke 1
 	genLove(1);
-
-	textcolor(LIGHTCYAN);
-	gotoxy(WIN_WIDTH + 7, 2);
-	cout << "Love Hunter";
-	gotoxy(WIN_WIDTH + 6, 4);
-	cout << "-----------";
-	gotoxy(WIN_WIDTH + 6, 6);
-	cout << "-----------";
-	gotoxy(WIN_WIDTH + 7, 12);
-	cout << "Control ";
-	gotoxy(WIN_WIDTH + 6, 13);
-	cout << "---------- ";
-	gotoxy(WIN_WIDTH + 3, 14);
-	cout << " A Key - Left";
-	gotoxy(WIN_WIDTH + 3, 15);
-	cout << " D Key - Right";
-
 	gotoxy(18, 10);
 	cout << "Press any key to start";
-	textcolor(WHITE);
 	getch();
-	gotoxy(18, 5);
-	cout << "                      ";
+	gotoxy(17, 10);
+	cout << "                          ";
 
 	while (true)
 	{
@@ -303,16 +341,25 @@ void play()
 			char ch = getch();
 			if (ch == 'a' || ch == 'A' || ch == KEY_LEFT)
 			{
-				// 8 adalah batas border kiri
-				if (playerPosX > 8)
-					playerPosX -= 4;
+				// 10 adalah batas border kiri
+				if ( playerPosX == 14)
+				{
+					playerPosX = 11;
+				}
+				else if ( playerPosX > 10)
+				{
+					playerPosX -= moving;
+				}
 			}
 			else if (ch == 'd' || ch == 'D' || ch == KEY_RIGHT)
 			{
-				// 64 adalah batas border kanan
-				// 60 karena lebar mobil 4 jadi dikurang 4
-				if (playerPosX < 60)
-					playerPosX += 4;
+				// 60 adalah batas border kanan
+				// 55 karena lebar player 5 jadi dikurang 5
+				if (playerPosX == 53){
+					playerPosX = 54;
+				}else if (playerPosX < 55){
+					playerPosX += moving;
+				}
 			}
 		
 			// kalo pencet ESC, kembali ke menu utama
@@ -322,16 +369,16 @@ void play()
 			}
 		}
 
-		// gambar mobil
+		// gambar player
 		drawPlayer();
 
-		// gambar mobil lawan ke-i klo ada
+		// gambar player ke-i klo ada
 		for (int i = 0; i < 2; i++)
 		{
 			drawLove(i);
 		}
 
-		// cek jika tabrakan mobil dengan mobil lawan, maka kalah
+		// cek jika player menangkap love, maka score bertamah
 		for (int i = 0; i < 2; i++)
 		{
 			if (collision(i) == true)
@@ -342,7 +389,7 @@ void play()
 			}
 		}
 
-		Sleep(100);
+		Sleep(120);
 
 		// hapus gambar player
 		erasePlayer();
@@ -353,9 +400,9 @@ void play()
 			EraseLove(i);
 		}
 
-		// jika posisi love ke-0 berada pada vertikal 10
-		if (LoveY[0] == 10)
-			// jika mobil lawan ke-1 tidak ada, maka buat jadi ada
+		// jika posisi love ke-0 berada pada vertikal 11
+		if (LoveY[0] == 11)
+			// jika Love ke-1 tidak ada, maka buat jadi ada
 			if (LoveSpawn[1] == false)
 				LoveSpawn[1] = true;
                                      
@@ -363,16 +410,16 @@ void play()
 		for (int i = 0; i < 2; i++)
 		{
 			if (LoveSpawn[i] == true)
-				LoveY[i] += 1;
+				LoveY[i] += lovemove;
 		}
 
-		// mobil lawan ke-i sampe batas bawah screen maka score nambah 1
-		// dan mobil lawan ke-i di hapus, lalu buat baru
+		//love ke-i sampe batas bawah screen maka gameover
 		for (int i = 0; i < 2; i++)
 		{
 			if (LoveY[i] > SCREEN_HEIGHT - 4)
 			{
 				gameover();
+				return;
 			}
 		}
 	}
@@ -411,8 +458,17 @@ int main ()
 		char select = getche();
 		
 		if (select == '1'){
+			level();
 			play();
-		}else if (select == '4'){
+		}
+		else if (select == '2')
+		{
+			/* code */
+		}
+		else if (select == '3'){
+			leaderboard();
+		}
+		else if (select == '4'){
 			exit(0);
 		}
 	}while (true);
