@@ -124,6 +124,34 @@ void drawBorder()
 
 }
 
+void about(){
+	system("cls");
+	textcolor(PINK);
+	gotoxy(25,3);
+	cout << "Love Hunter";
+	gotoxy(10,5);
+	cout << "Game Ini bertujuan untuk menangkap love sebanyak-banyaknya";
+	gotoxy(10,7);
+	cout << "Petunjuk Permainan :";
+	gotoxy(10,8);
+	cout << "- Gunakan Tombol A atau Arah Kiri untuk bergerak kekiri";
+	gotoxy(10,9);
+	cout << "- Gunakan Tombol D atau Arah Kanan untuk bergerak kekanan";
+	textcolor(BLACK);
+	char kelompok = getche();
+	if(kelompok = 't'){
+		textcolor(PINK);
+		gotoxy(30,20);
+		cout << "Anggota Kelompok 2 : ";
+		gotoxy(30,21);
+		cout << "1. Muhammad Alif Abrar (Tesyaf)";
+		gotoxy(30,22);
+		cout << "2. Muhammad Fa'jri Ramadhani (Jriee)";
+		gotoxy(30,23);
+		cout << "3. Elena Oktaviani (elenaoktaviani)";
+		getche();
+	}
+}
 
 //Memunculkan Love secara random
 void genLove(int index)
@@ -325,7 +353,7 @@ void play()
 	score = 0;
 	LoveSpawn[0] = true;
 	LoveSpawn[1] = false;
-	LoveY[0] = LoveY[1] = 1;
+	LoveY[0] = LoveY[1] = 0;
 
 	system("cls");
 	drawBorder();
@@ -459,7 +487,7 @@ int main ()
 		gotoxy(10,13);
 		cout <<"1. Play Game";
 		gotoxy(10,14);
-		cout <<"2. Tutorial";
+		cout <<"2. About Game";
 		gotoxy(10,15);
 		cout <<"3. Leaderboard";
 		gotoxy(10,16);
@@ -474,7 +502,7 @@ int main ()
 		}
 		else if (select == '2')
 		{
-			/* code */
+			about();
 		}
 		else if (select == '3'){
 			leaderboard();
