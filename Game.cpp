@@ -26,8 +26,6 @@
 #define YELLOW 14
 #define LIGHTWHITE 15
 
-#define KEY_UP 72
-#define KEY_DOWN 80
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 
@@ -36,6 +34,7 @@ COORD CursorPosition;
 
 using namespace std;
 
+string crush;
 int lovemove = 0;
 int moving = 0;
 int LoveY[2];
@@ -108,7 +107,7 @@ void drawBorder()
 	textcolor(WHITE);
 
 	textcolor(LIGHTCYAN);
-	gotoxy(WIN_WIDTH + 5, 2);
+	gotoxy(WIN_WIDTH + 4, 2);
 	cout << "Love Hunter";
 	gotoxy(WIN_WIDTH + 4, 4);
 	cout << "-----------";
@@ -208,14 +207,14 @@ void erasePlayer(){
 bool collision(int ind)
 {
 	/*
-		kalau player menangkaplove return true, else false
+		kalau player menangkap love return true, else false
 	*/
 
 	// klo posisi love ke-0, berada pada baris tempat mobil
 	// berada, terdapat kemungkinan love tertangkap
-	if (LoveY[ind] + 4 - playerPosY >= 0 && LoveY[ind] + 4 - playerPosY < 8)
+	if (LoveY[ind] + 4 - playerPosY >= 0 && LoveY[ind] + 4 - playerPosY < 7)
 	{
-		if (LoveX[ind] + 4 - playerPosX >= 0 && LoveX[ind] + 4 - playerPosX < 8)
+		if (LoveX[ind] + 4 - playerPosX >= 0 && LoveX[ind] + 4 - playerPosX < 9)
 		{
 			return true;
 		}
@@ -232,11 +231,10 @@ void gameover()
 	system("cls");
 	textcolor(CYAN);
 	cout << endl;
-	cout << "\t\t--------------------------" << endl;
-	cout << "\t\t-------- Game Over -------" << endl;
-	cout << "\t\t--------------------------" << endl
-		 << endl;
-	cout << "\t\tYour name: ";
+	cout << "\t\t|-----------------------------------|" << endl;
+	cout << "\t\t  Anda Mendapat "<< score <<" Cinta Dari " << crush << endl;
+	cout << "\t\t|-----------------------------------|" << endl << endl;
+	cout << "\t\tNama Anda: ";
 	cin >> text;
 	LeadBoard << text << " " << score << endl;
 	cout << "\t\tPress any key to go back to menu.";
@@ -248,10 +246,19 @@ void gameover()
 
 void updateScore()
 {
-	gotoxy(WIN_WIDTH + 7, 5);
+	gotoxy(WIN_WIDTH + 5, 5);
 	textcolor(CYAN);
 	cout << "Score: " << score << endl;
 	textcolor(WHITE);
+}
+
+void namacrush()
+{
+	system ("cls");
+	textcolor(LIGHTBLUE);
+	gotoxy(20,7);
+	cout << "Masukan nama crushmu : ";
+	cin >> crush;
 }
 
 void level()
@@ -308,7 +315,6 @@ void leaderboard(void)
 	cout << "\n\nPress any key to go back to menu";
 	textcolor(WHITE);
 	getch();
-
 	LeadBoard.close();
 }
 
@@ -344,7 +350,7 @@ void play()
 				// 10 adalah batas border kiri
 				if ( playerPosX == 14)
 				{
-					playerPosX = 11;
+					playerPosX = 10;
 				}
 				else if ( playerPosX > 10)
 				{
@@ -357,7 +363,11 @@ void play()
 				// 55 karena lebar player 5 jadi dikurang 5
 				if (playerPosX == 53){
 					playerPosX = 54;
-				}else if (playerPosX < 55){
+				}
+				else if (playerPosX == 52){
+					playerPosX = 54;
+				}
+				else if (playerPosX < 54){
 					playerPosX += moving;
 				}
 			}
@@ -458,6 +468,7 @@ int main ()
 		char select = getche();
 		
 		if (select == '1'){
+			namacrush();
 			level();
 			play();
 		}
