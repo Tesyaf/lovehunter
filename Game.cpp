@@ -17,14 +17,10 @@
 #define PURPLE 5
 #define DARKYELLOW 6
 #define WHITE 7
-#define GREY 8
 #define LIGHTBLUE 9
 #define LIGHTGREEN 10
-#define LIGHTCYAN 11
-#define LIGHTRED 12
 #define PINK 13
 #define YELLOW 14
-#define LIGHTWHITE 15
 
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
@@ -86,7 +82,7 @@ void setcursor(bool visible, DWORD size)
 //Menggambar border permainan
 void drawBorder()
 {
-	textcolor(GREY);
+	textcolor(LIGHTGREEN);
 	// bikin border kiri dan kanan
 	for (int i = 0; i < SCREEN_HEIGHT; i++)
 	{
