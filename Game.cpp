@@ -102,7 +102,7 @@ void drawBorder()
 	}
 	textcolor(WHITE);
 
-	textcolor(LIGHTCYAN);
+	textcolor(CYAN);
 	gotoxy(WIN_WIDTH + 4, 2);
 	cout << "Love Hunter";
 	gotoxy(WIN_WIDTH + 4, 4);
@@ -120,6 +120,35 @@ void drawBorder()
 
 }
 
+void about(){
+	system("cls");
+	textcolor(PINK);
+	gotoxy(25,3);
+	cout << "Love Hunter";
+	gotoxy(10,5);
+	cout << "Game Ini bertujuan untuk menangkap love sebanyak-banyaknya";
+	gotoxy(10,7);
+	cout << "Petunjuk Permainan :";
+	gotoxy(10,8);
+	cout << "- Gunakan Tombol A atau Arah Kiri untuk bergerak kekiri";
+	gotoxy(10,9);
+	cout << "- Gunakan Tombol D atau Arah Kanan untuk bergerak kekanan";
+	textcolor(BLACK);
+	char kelompok = getche();
+	if(kelompok == '2'){
+		textcolor(PINK);
+		gotoxy(30,20);
+		cout << "Anggota Kelompok 2 : ";
+		gotoxy(30,21);
+		cout << "1. Muhammad Alif Abrar (Tesyaf)";
+		gotoxy(30,22);
+		cout << "2. Muhammad Fa'jri Ramadhani (Jriee)";
+		gotoxy(30,23);
+		cout << "3. Elena Oktaviani (elenaoktaviani)";
+		getche();
+	}
+}
+
 
 //Memunculkan Love secara random
 void genLove(int index)
@@ -127,7 +156,7 @@ void genLove(int index)
 	/*
 		bikin posisi Love di koordinat horizontal x
 		minimal di x = 10, karena lebar border kiri adalah 10
-		maksimal 50, karena 50 adalah posisi bagian kiri mobil
+		maksimal 50, karena 50 adalah posisi bagian kiri love
 	*/
 	LoveX[index] = 10 + 4*(rand() % (10));
 }
@@ -206,7 +235,7 @@ bool collision(int ind)
 		kalau player menangkap love return true, else false
 	*/
 
-	// klo posisi love ke-0, berada pada baris tempat mobil
+	// klo posisi love ke-0, berada pada baris tempat love
 	// berada, terdapat kemungkinan love tertangkap
 	if (LoveY[ind] + 4 - playerPosY >= 0 && LoveY[ind] + 4 - playerPosY < 7)
 	{
@@ -222,7 +251,7 @@ void gameover()
 {
 	string text;
 
-	ofstream LeadBoard("game.dat", ios_base::app);
+	ofstream LeadBoard("game.txt", ios_base::app);
 
 	system("cls");
 	textcolor(CYAN);
@@ -298,15 +327,17 @@ void leaderboard(void)
 {
 	string text;
 
-	ifstream LeadBoard("game.dat");
+	ifstream LeadBoard("game.txt");
 
 	system("cls");
 	textcolor(CYAN);
 	cout << "LEADERBOARD";
-	cout << "\n----------------";
+	cout << "\n----------------\n";
 	while (LeadBoard >> text)
 	{
-		cout << "\n " << text;
+		cout << text << "      || Score : ";
+		LeadBoard >> text;
+		cout << text << "|| \n";
 	}
 	cout << "\n\nPress any key to go back to menu";
 	textcolor(WHITE);
@@ -470,7 +501,7 @@ int main ()
 		}
 		else if (select == '2')
 		{
-			/* code */
+			about();
 		}
 		else if (select == '3'){
 			leaderboard();
