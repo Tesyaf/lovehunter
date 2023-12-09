@@ -197,7 +197,7 @@ void EraseLove(int ind){
 void resetLove(int ind)
 {
 	EraseLove(ind);
-	LoveY[ind] = 1;
+	LoveY[ind] = 0;
 	genLove(ind);
 }
 
@@ -369,6 +369,21 @@ void play()
 
 	while (true)
 	{
+
+		// gambar player
+		drawPlayer();
+
+		// gambar player ke-i klo ada
+		for (int i = 0; i < 2; i++)
+		{
+			drawLove(i);
+		}
+				Sleep(120);
+
+		// hapus gambar player
+		erasePlayer();
+
+	
 		if (kbhit())
 		{
 			char ch = getch();
@@ -406,15 +421,6 @@ void play()
 			}
 		}
 
-		// gambar player
-		drawPlayer();
-
-		// gambar player ke-i klo ada
-		for (int i = 0; i < 2; i++)
-		{
-			drawLove(i);
-		}
-
 		// cek jika player menangkap love, maka score bertamah
 		for (int i = 0; i < 2; i++)
 		{
@@ -426,10 +432,6 @@ void play()
 			}
 		}
 
-		Sleep(120);
-
-		// hapus gambar player
-		erasePlayer();
 
 		// hapus gambar love
 		for (int i = 0; i < 2; i++)
