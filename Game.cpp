@@ -1,8 +1,8 @@
+#include <conio.h>
+#include <windows.h>
 #include <iostream>
 #include <fstream>
-#include <conio.h>
 #include <direct.h>
-#include <windows.h>
 #include <time.h>
 
 #define SCREEN_WIDTH 90
@@ -29,6 +29,10 @@ HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD CursorPosition;
 
 using namespace std;
+
+char sgameover[] = {"C:/Users/LENOVO/Documents/GitHub/lovehunter/gameover.wav"};
+string soundgameover;
+fstream fp;
 
 string crush;
 int lovemove = 0;
@@ -250,7 +254,6 @@ bool collision(int ind)
 void gameover()
 {
 	string text;
-
 	ofstream LeadBoard("game.txt", ios_base::app);
 
 	system("cls");
@@ -378,7 +381,7 @@ void play()
 		{
 			drawLove(i);
 		}
-				Sleep(120);
+		Sleep(120);
 
 		// hapus gambar player
 		erasePlayer();
@@ -427,6 +430,7 @@ void play()
 			if (collision(i) == true)
 			{
 				resetLove(i);
+				PlaySound(TEXT("E:\\Game\\score.wav"), NULL, SND_ASYNC);
 				score++;
 				updateScore();
 			}
@@ -457,6 +461,10 @@ void play()
 		{
 			if (LoveY[i] > SCREEN_HEIGHT - 4)
 			{
+				fp.open(sgameover, ios::in | ios::binary);
+				soundgameover = sgameover;
+				PlaySound(soundgameover.c_str(), NULL, SND_ASYNC);
+				fp.close();
 				gameover();
 				return;
 			}
@@ -466,9 +474,9 @@ void play()
 
 int main ()
 {
+	PlaySound(TEXT("E:\\Game\\menu.wav"), NULL, SND_ASYNC | SND_LOOP);
 	setcursor(0,0);
-	srand((unsigned)time(NULL));
-
+	srand((unsigned)time(NULL)); //inisialisasi srand untuk memunculkan angka random
 	do {
 
 		system("cls");
