@@ -30,7 +30,7 @@ COORD CursorPosition;
 
 using namespace std;
 
-char sgameover[] = {"C:/Users/LENOVO/Documents/GitHub/lovehunter/gameover.wav"};
+char sgameover[] = {"C:/Users/LENOVO/Documents/GitHub/lovehunter/gameover.wav"};//import & inisialisasi tambah sound gameover
 string soundgameover;
 fstream fp;
 
@@ -98,7 +98,7 @@ void drawBorder()
 			cout << "\xcc";
 		}
 	}
-	// lebar area permainan xx
+	// lebar area permainan 
 	for (int i = 0; i < SCREEN_HEIGHT; i++)
 	{
 		gotoxy(SCREEN_WIDTH,i);
@@ -272,7 +272,7 @@ void gameover()
 	LeadBoard.close();
 }
 
-void updateScore()
+void updateScore() //menampilkan score
 {
 	gotoxy(WIN_WIDTH + 5, 5);
 	textcolor(CYAN);
@@ -280,7 +280,7 @@ void updateScore()
 	textcolor(WHITE);
 }
 
-void namacrush()
+void namacrush() //input data nama crush
 {
 	system ("cls");
 	textcolor(LIGHTBLUE);
@@ -289,7 +289,7 @@ void namacrush()
 	cin >> crush;
 }
 
-void level()
+void level() // memilih level dan menentukan kecepatan gerak player dan kecepatan love 
 {
 	system("cls");
 	textcolor(LIGHTBLUE);
@@ -326,26 +326,26 @@ void level()
 	}
 }
 
-void leaderboard(void)
+void scoreboard(void) //input data score
 {
 	string text;
 
-	ifstream LeadBoard("game.txt");
+	ifstream ScoreBoard("game.txt");
 
 	system("cls");
 	textcolor(CYAN);
-	cout << "LEADERBOARD";
+	cout << "SCORERBOARD";
 	cout << "\n----------------\n";
-	while (LeadBoard >> text)
+	while (ScoreBoard >> text)
 	{
 		cout << text << "      || Score : ";
-		LeadBoard >> text;
+		ScoreBoard >> text;
 		cout << text << "|| \n";
 	}
 	cout << "\n\nPress any key to go back to menu";
 	textcolor(WHITE);
 	getch();
-	LeadBoard.close();
+	ScoreBoard.close();
 }
 
 void play()
@@ -372,7 +372,6 @@ void play()
 
 	while (true)
 	{
-
 		// gambar player
 		drawPlayer();
 
@@ -386,7 +385,6 @@ void play()
 		// hapus gambar player
 		erasePlayer();
 
-	
 		if (kbhit())
 		{
 			char ch = getch();
@@ -461,6 +459,7 @@ void play()
 		{
 			if (LoveY[i] > SCREEN_HEIGHT - 4)
 			{
+				\\menambah suara ketika gameover
 				fp.open(sgameover, ios::in | ios::binary);
 				soundgameover = sgameover;
 				PlaySound(soundgameover.c_str(), NULL, SND_ASYNC);
@@ -498,7 +497,7 @@ int main ()
 		gotoxy(10,14);
 		cout <<"2. Tutorial";
 		gotoxy(10,15);
-		cout <<"3. Leaderboard";
+		cout <<"3. Scoreboard";
 		gotoxy(10,16);
 		cout <<"4. Exit Game";
 		textcolor(BLACK);
