@@ -2,7 +2,6 @@
 #include <windows.h>
 #include <iostream>
 #include <fstream>
-#include <direct.h>
 #include <time.h>
 
 #define SCREEN_WIDTH 90
@@ -459,7 +458,7 @@ void play()
 		{
 			if (LoveY[i] > SCREEN_HEIGHT - 4)
 			{
-				\\menambah suara ketika gameover
+				//menambah suara ketika gameover
 				fp.open(sgameover, ios::in | ios::binary);
 				soundgameover = sgameover;
 				PlaySound(soundgameover.c_str(), NULL, SND_ASYNC);
@@ -513,7 +512,7 @@ int main ()
 			about();
 		}
 		else if (select == '3'){
-			leaderboard();
+			scoreboard();
 		}
 		else if (select == '4'){
 			exit(0);
